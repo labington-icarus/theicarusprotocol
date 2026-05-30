@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08080D">
+<meta name="description" content="The Icarus Protocol — Sovereign intelligence infrastructure for modern business. Meta advertising, creative generation, and autonomous lead systems.">
+<title>The Icarus Protocol — Sovereign Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@200;300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --void: #08080D;
+    --void-raised: #0c0c12;
+    --gold: #C9A962;
+    --gold-dim: rgba(201,169,98,0.55);
+    --gold-glow: rgba(201,169,98,0.18);
+    --ivory: #E8E0D0;
+    --ivory-dim: rgba(232,224,208,0.55);
+    --ivory-muted: rgba(232,224,208,0.28);
+    --border: rgba(232,224,208,0.08);
+    --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --serif: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+    --mono: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --t-base: 800ms;
+    --t-slow: 1400ms;
+    --t-cine: 2200ms;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--void);
+    color: var(--ivory);
+  }
+
+  body {
+    font-family: var(--sans);
+    font-weight: 300;
+    background: var(--void);
+    color: var(--ivory);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Film grain overlay */
+  body::before {
+    content: '';
+    position: fixed; inset:0; pointer-events:none; z-index: 9998;
+    opacity: 0.06; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    animation: grainShift 0.5s steps(1) infinite;
+  }
+  @keyframes grainShift {
+    0%{background-position: 0% 0%;}
+    20%{background-position: 30% 15%;}
+    40%{background-position: 70% 60%;}
+    60%{background-position: 20% 80%;}
+    80%{background-position: 90% 30%;}
+    100%{background-position: 0% 0%;}
+  }
+
+  /* Vignette */
+  body::after {
+    content: ''; position: fixed; inset:0; pointer-events:none; z-index: 9997;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%);
+  }
+
+  /* ---------------------------------------------------------------
+     CUSTOM CURSOR
+  ---------------------------------------------------------------- */
+  .cursor, .cursor-aura { position: fixed; pointer-events:none; z-index: 10000; border-radius: 50%; }
+  .cursor { width: 8px; height: 8px; margin: -4px 0 0 -4px; background: rgba(201,169,98,0.95); box-shadow: 0 0 8px 2px rgba(201,169,98,0.4), 0 0 18px 4px rgba(201,169,98,0.12); transition: width 0.2s, height 0.2s, margin 0.2s; will-change: transform; }
+  .cursor.hovering { width: 48px; height: 48px; margin: -24px 0 0 -24px; background: transparent; border: 1px solid rgba(201,169,98,0.5); box-shadow: 0 0 20px rgba(201,169,98,0.15); }
+  .cursor-aura { width: 380px; height: 380px; margin: -190px 0 0 -190px; background: radial-gradient(circle, rgba(201,169,98,0.04) 0%, rgba(201,169,98,0.01) 40%, transparent 65%); mix-blend-mode: screen; will-change: transform; }
+  @media (pointer: coarse) { .cursor, .cursor-aura { display: none !important; } }
+
+  /* ---------------------------------------------------------------
+     PRELOADER
+  ---------------------------------------------------------------- */
+  #preloader {
+    position: fixed; inset: 0; z-index: 10000;
+    background: var(--void);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 1.2s var(--ease-out), visibility 1.2s;
+  }
+  #preloader.is-gone { opacity: 0; visibility: hidden; pointer-events: none; }
+
+  #preloader .pl-stage {
+    position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.8rem;
+  }
+
+  /* HUD corners */
+  #preloader .pl-corner {
+    position: absolute; width: 32px; height: 32px;
+    border: 1.5px solid rgba(201,169,98,0.7); filter: drop-shadow(0 0 6px rgba(201,169,98,0.25));
+  }
+  #preloader .pl-corner--tl { top: 28px; left: 28px; border-right: 0; border-bottom: 0; }
+  #preloader .pl-corner--tr { top: 28px; right: 28px; border-left: 0; border-bottom: 0; }
+  #preloader .pl-corner--bl { bottom: 28px; left: 28px; border-right: 0; border-top: 0; }
+  #preloader .pl-corner--br { bottom: 28px; right: 28px; border-left: 0; border-top: 0; }
+
+  #preloader .pl-logo {
+    width: 72px; height: 72px;
+    display: flex; align-items: center; justify-content: center;
+    filter: drop-shadow(0 0 20px rgba(201,169,98,0.25));
+  }
+  #preloader .pl-logo img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: brightness(1.1) contrast(1.05);
+  }
+
+  #preloader .pl-wordmark {
+    font-family: var(--mono); font-weight: 400; font-size: 0.7rem;
+    letter-spacing: 0.5em; text-transform: uppercase; color: var(--ivory-dim);
+  }
+
+  #preloader .pl-meter-wrap { width: 140px; position: relative; }
+  #preloader .pl-meter-track {
+    height: 1px; background: rgba(232,224,208,0.08); width: 100%;
+  }
+  #preloader .pl-meter-fill {
+    height: 1px; background: var(--gold); width: 0%;
+    box-shadow: 0 0 8px rgba(201,169,98,0.4); transition: width 0.1s linear;
+  }
+  #preloader .pl-pct {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
+    color: var(--gold); margin-top: 0.6rem; text-align: center;
+  }
+  #preloader .pl-status {
+    font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--ivory-muted); margin-top: 1.2rem;
+    min-height: 1.2em;
+  }
+
+  /* ---------------------------------------------------------------
+     CANVAS LAYER
+  ---------------------------------------------------------------- */
+  #constellation {
+    position: fixed; inset:0; z-index: 0; pointer-events:none;
+    opacity: 0.55;
+  }
+
+  /* ---------------------------------------------------------------
+     MAIN CONTENT (starts hidden)
+  ---------------------------------------------------------------- */
+  #main {
+    position: relative; z-index: 1;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 1.6s var(--ease-out), transform 1.6s var(--ease-out);
+    visibility: hidden;
+  }
+  #main.is-visible { opacity: 1; transform: translateY(0); visibility: visible; }
+
+  /* ---------------------------------------------------------------
+     NAV
+  ---------------------------------------------------------------- */
+  .nav {
+    position: fixed; top:0; left:0; right:0; z-index: 100;
+    padding: 28px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ivory-dim);
+    background: rgba(8,8,13,0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: opacity 0.6s var(--ease-out);
+  }
+  .nav .brand { 
+    display: flex; align-items: center; gap: 12px;
+    color: var(--ivory); letter-spacing: 0.35em; font-weight: 400; text-decoration:none; transition: color 0.4s; 
+  }
+  .nav .brand .logo-mark {
+    width: 28px; height: 28px;
+    filter: brightness(1.1);
+    opacity: 0.9;
+    transition: opacity 0.4s;
+  }
+  .nav .brand:hover .logo-mark { opacity: 1; }
+  .nav .brand:hover { color: var(--gold); }
+  .nav .brand small {
+    display: block; font-family: var(--serif); font-style: italic;
+    font-size: 0.8rem; font-weight: 300; letter-spacing: 0.03em;
+    color: var(--ivory-dim); text-transform: none; margin-top: 4px;
+  }
+  .nav .contact-btn {
+    color: var(--ivory-dim); text-decoration: none; border: 1px solid rgba(232,224,208,0.15);
+    padding: 8px 16px; border-radius: 999px; font-size: 0.6rem;
+    transition: all 0.5s var(--ease-out);
+  }
+  .nav .contact-btn:hover {
+    border-color: var(--gold); color: var(--gold); background: rgba(201,169,98,0.06);
+  }
+
+  /* ---------------------------------------------------------------
+     SECTIONS
+  ---------------------------------------------------------------- */
+  section {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; padding: 8vh 5vw;
+  }
+
+  /* HERO */
+  .hero { flex-direction: column; text-align: center; padding-bottom: 100px; }
+  .hero .hero-meta {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 2rem;
+  }
+  .hero h1 {
+    font-family: var(--serif); font-weight: 300; font-size: clamp(2.8rem, 8vw, 7.5rem);
+    line-height: 0.92; letter-spacing: -0.03em; color: var(--ivory);
+    text-transform: uppercase;
+    text-shadow: 0 0 60px rgba(201,169,98,0.08);
+  }
+  .hero h1 .gold { color: var(--gold); font-weight: 400; }
+  .hero .hero-rule {
+    width: 60px; height: 1px; background: var(--gold); margin: 2rem auto;
+    opacity: 0.6; box-shadow: 0 0 8px rgba(201,169,98,0.3);
+  }
+  .hero .hero-tagline {
+    font-family: var(--sans); font-weight: 200; font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+    color: var(--ivory-dim); letter-spacing: 0.08em; max-width: 52ch; line-height: 1.7;
+  }
+  .hero .hero-tagline em {
+    font-family: var(--serif); font-style: italic; color: var(--gold); font-weight: 400;
+  }
+
+  /* Scroll hint */
+  .scroll-hint {
+    position: relative;
+    margin-top: 3rem;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    opacity: 0.5;
+  }
+  .scroll-hint span {
+    font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ivory-muted);
+  }
+  .scroll-hint .scroll-line {
+    width: 1px; height: 48px; background: linear-gradient(180deg, var(--gold-dim), transparent);
+    position: relative; overflow: hidden;
+  }
+  .scroll-hint .scroll-line::after {
+    content: ''; position: absolute; top: -100%; left: 0; width: 1px; height: 50%;
+    background: var(--gold); animation: scrollPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%{top:-100%} 50%{top:0%} 100%{top:100%}
+  }
+
+  /* STATEMENT */
+  .statement { text-align: center; padding: 15vh 5vw; }
+  .statement h2 {
+    font-family: var(--serif); font-weight: 300; font-size: clamp(1.8rem, 4.2vw, 3.8rem);
+    line-height: 1.15; letter-spacing: -0.02em; color: var(--ivory); max-width: 22ch; margin: 0 auto;
+  }
+  .statement h2 em {
+    color: var(--gold); font-style: italic; font-weight: 400;
+  }
+  .statement .stmt-body {
+    font-family: var(--sans); font-weight: 300; font-size: clamp(0.85rem, 1.15vw, 1.05rem);
+    color: var(--ivory-dim); max-width: 54ch; margin: 2.5rem auto 0; line-height: 1.8;
+  }
+
+  /* CAPABILITIES */
+  .capabilities { flex-direction: column; padding: 12vh 6vw; }
+  .capabilities .cap-label {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 3.5rem;
+  }
+  .cap-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    max-width: 1200px; width: 100%;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 960px) {
+    .cap-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .cap-grid { grid-template-columns: 1fr; }
+  }
+  .cap-cell {
+    background: var(--void); padding: 3.5rem 2.5rem;
+    transition: background 0.8s var(--ease-out);
+    position: relative; overflow: hidden;
+  }
+  .cap-cell::before {
+    content: ''; position: absolute; top:0; left:0; right:0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    opacity: 0; transition: opacity 0.8s;
+  }
+  .cap-cell:hover::before { opacity: 1; }
+  .cap-cell:hover { background: var(--void-raised); }
+  .cap-cell .num {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; color: var(--gold-dim);
+    margin-bottom: 1.2rem;
+  }
+  .cap-cell h3 {
+    font-family: var(--serif); font-weight: 400; font-size: 1.5rem;
+    color: var(--ivory); margin-bottom: 0.8rem; letter-spacing: -0.01em;
+  }
+  .cap-cell p {
+    font-family: var(--sans); font-weight: 300; font-size: 0.8rem;
+    color: var(--ivory-dim); line-height: 1.7; max-width: 36ch;
+  }
+
+  /* TRUST / PROOF */
+  .proof { text-align: center; padding: 15vh 5vw; }
+  .proof .proof-label {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.35em;
+    color: var(--gold-dim); text-transform: uppercase; margin-bottom: 4rem;
+  }
+  .proof-grid {
+    display: flex; justify-content: center; align-items: flex-start; gap: clamp(2rem, 6vw, 6rem); flex-wrap: wrap;
+  }
+  .proof-item .val {
+    font-family: var(--serif); font-weight: 300; font-size: clamp(2.5rem, 6vw, 5rem);
+    color: var(--ivory); line-height: 1; letter-spacing: -0.03em;
+  }
+  .proof-item .val span {
+    color: var(--gold); font-weight: 400;
+  }
+  .proof-item .lab {
+    font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ivory-muted); margin-top: 1rem;
+  }
+
+  /* CTA */
+  .cta { text-align: center; flex-direction: column; padding: 18vh 5vw; }
+  .cta h2 {
+    font-family: var(--serif); font-weight: 300; font-size: clamp(2rem, 5vw, 4.2rem);
+    color: var(--ivory); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 1.2rem;
+  }
+  .cta .cta-body {
+    font-family: var(--sans); font-weight: 300; font-size: clamp(0.85rem, 1.1vw, 1rem);
+    color: var(--ivory-dim); max-width: 48ch; line-height: 1.8; margin-bottom: 3rem;
+  }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    border: 1.5px solid var(--gold-dim); padding: 1.1rem 2.2rem;
+    position: relative; overflow: hidden;
+    transition: all 0.6s var(--ease-out);
+    box-shadow: 0 0 0 rgba(201,169,98,0);
+  }
+  .cta-btn::before {
+    content: ''; position: absolute; inset:0; background: var(--gold);
+    transform: translateY(101%); transition: transform 0.6s var(--ease-out);
+  }
+  .cta-btn:hover::before { transform: translateY(0); }
+  .cta-btn:hover { color: var(--void); box-shadow: 0 0 40px rgba(201,169,98,0.15); border-color: var(--gold); }
+  .cta-btn span { position: relative; z-index: 1; }
+  .cta-btn svg { position: relative; z-index: 1; width: 16px; height: 16px; transition: transform 0.4s; }
+  .cta-btn:hover svg { transform: translateX(4px); }
+
+  /* FOOTER */
+  .footer {
+    padding: 6vh 5vw 10vh; text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .footer .f-brand {
+    font-family: var(--serif); font-weight: 300; font-size: 0.85rem;
+    color: var(--ivory-dim); letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .footer .f-copy {
+    font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.2em;
+    color: var(--ivory-muted); margin-top: 1.2rem; text-transform: uppercase;
+  }
+  .footer .f-contact {
+    margin-top: 1.8rem;
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .footer .f-contact a {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; text-decoration: none;
+    color: var(--ivory-dim);
+    transition: color 0.4s;
+  }
+  .footer .f-contact a:hover { color: var(--gold); }
+
+  /* ---------------------------------------------------------------
+     REVEAL ANIMATIONS
+  ---------------------------------------------------------------- */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .reveal-d1 { transition-delay: 0.15s; }
+  .reveal-d2 { transition-delay: 0.3s; }
+  .reveal-d3 { transition-delay: 0.45s; }
+  .reveal-d4 { transition-delay: 0.6s; }
+
+  /* Character split reveal for hero text */
+  .split-text .char {
+    display: inline-block; opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  }
+  .split-text.is-visible .char {
+    opacity: 1; transform: translateY(0);
+  }
+  .split-text .char-space { width: 0.32em; }
+
+  .hero h1 .hero-line {
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .hero h1 .hero-line.protocol-line {
+    color: var(--ivory-dim);
+    opacity: 0.5;
+  }
+
+  .hero .hero-logo {
+    margin-bottom: 2.5rem;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 30px rgba(201,169,98,0.12));
+  }
+  .hero .hero-logo img {
+    width: 80px; height: 80px;
+    object-fit: contain;
+  }
+
+  /* Desktop — push hero content down so logo clears the nav border */
+  @media (min-width: 769px) {
+    .hero { padding-top: 120px; }
+  }
+
+  @media (max-width: 768px) {
+    .hero .hero-logo img { width: 60px; height: 60px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .nav { padding: 20px 24px; }
+    .nav .brand small { display: none; }
+    .hero { justify-content: flex-start; padding-top: 110px; padding-bottom: 6vh; }
+    .hero h1 { font-size: clamp(2.2rem, 10vw, 3.5rem); line-height: 0.95; }
+    .hero .hero-logo { margin-bottom: 2rem; }
+    .hero .hero-logo img { width: 52px; height: 52px; padding-bottom: 4px; }
+    .hero .hero-meta { margin-bottom: 1.2rem; font-size: 0.5rem; letter-spacing: 0.25em; }
+    .hero .hero-rule { margin: 1.6rem auto; }
+    .hero .hero-tagline { font-size: 0.85rem; line-height: 1.6; }
+    .scroll-hint { margin-top: 2.5rem; }
+    .scroll-hint .scroll-line { height: 32px; }
+    .cap-grid { grid-template-columns: 1fr; }
+    .proof-grid { flex-direction: column; align-items: center; gap: 3rem; }
+    .cursor, .cursor-aura { display: none !important; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-aura" id="cursor-aura"></div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="constellation"></canvas>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pl-corner pl-corner--tl"></div>
+  <div class="pl-corner pl-corner--tr"></div>
+  <div class="pl-corner pl-corner--bl"></div>
+  <div class="pl-corner pl-corner--br"></div>
+  <div class="pl-stage">
+    <div class="pl-logo"><img src="icarus-logo.png" alt="ICARUS"></div>
+    <div class="pl-wordmark">ICARUS PROTOCOL</div>
+    <div class="pl-meter-wrap">
+      <div class="pl-meter-track"><div class="pl-meter-fill" id="pl-fill"></div></div>
+      <div class="pl-pct" id="pl-pct">00%</div>
+    </div>
+    <div class="pl-status" id="pl-status">SYSTEM INITIALIZATION</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <nav class="nav">
+    <a href="#" class="brand">
+      <img src="icarus-logo.png" class="logo-mark" alt="">
+      ICARUS PROTOCOL
+      <small>Agency Systems Division</small>
+    </a>
+    <a href="https://calendly.com/labington1022/30min" class="contact-btn" target="_blank" rel="noopener">Book a Call</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-logo reveal"><img src="icarus-logo.png" alt=""></div>
+    <div class="hero-meta reveal">SYSTEMS OPERATIONAL &nbsp;&middot;&nbsp; EST. 2026</div>
+    <h1 class="split-text" id="heroTitle">
+      <span class="hero-line gold">THE ICARUS</span>
+      <span class="hero-line protocol-line">PROTOCOL</span>
+    </h1>
+    <div class="hero-rule reveal reveal-d1"></div>
+    <p class="hero-tagline reveal reveal-d2">
+      Sovereign intelligence infrastructure for the modern business.<br>
+      We do not sell hours. We <em>deploy systems</em> that acquire customers while you sleep.
+    </p>
+    <div class="scroll-hint reveal reveal-d4">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- STATEMENT -->
+  <section class="statement" id="statement">
+    <h2 class="reveal">
+      Every business that will <em>dominate</em> the next decade is currently building its machine.
+    </h2>
+    <p class="stmt-body reveal reveal-d2">
+      The Icarus Protocol constructs Meta advertising funnels, autonomous creative generation pipelines, and lead-nurture systems engineered to operate without your daily intervention. This is not marketing. This is infrastructure.
+    </p>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section class="capabilities" id="capabilities">
+    <div class="cap-label reveal">Intelligence Stack</div>
+    <div class="cap-grid">
+      <div class="cap-cell reveal reveal-d1">
+        <div class="num">01</div>
+        <h3>Meta Ad Systems</h3>
+        <p>Campaign architecture, creative testing protocols, and budget allocation algorithms built for cost-per-acquisition at scale.</p>
+      </div>
+      <div class="cap-cell reveal reveal-d2">
+        <div class="num">02</div>
+        <h3>Creative Engine</h3>
+        <p>AI-generated video, image, and copy assets produced on spec and iterated against performance data in real time.</p>
+      </div>
+      <div class="cap-cell reveal">
+        <div class="num">03</div>
+        <h3>Lead Automation</h3>
+        <p>n8n-powered funnels that capture, score, qualify, and route prospects into your calendar while you run operations.</p>
+      </div>
+      <div class="cap-cell reveal reveal-d2">
+        <div class="num">04</div>
+        <h3>AI Outreach</h3>
+        <p>Autonomous research, personalized messaging, and follow-up sequences deployed across email, SMS, and social channels.</p>
+      </div>
+      <div class="cap-cell reveal">
+        <div class="num">05</div>
+        <h3>Data Sovereignty</h3>
+        <p>Your data lives in systems you control. No platform lock-in. No black boxes. Infrastructure that compounds.</p>
+      </div>
+      <div class="cap-cell reveal reveal-d2">
+        <div class="num">06</div>
+        <h3>Strategic Convergence</h3>
+        <p>Weekly intelligence briefings and system audits. We treat your growth like a product, not a campaign.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section class="proof" id="proof">
+    <div class="proof-label reveal">System Performance</div>
+    <div class="proof-grid">
+      <div class="proof-item reveal">
+        <div class="val"><span>24</span>/7</div>
+        <div class="lab">Autonomous Operation</div>
+      </div>
+      <div class="proof-item reveal reveal-d1">
+        <div class="val">&lt;<span>48</span>h</div>
+        <div class="lab">Speed to Lead</div>
+      </div>
+      <div class="proof-item reveal reveal-d2">
+        <div class="val"><span>0</span></div>
+        <div class="lab">Manual Touchpoints</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="initiate">
+    <h2 class="reveal">The machine compounds.<br>Will you build it?</h2>
+    <p class="cta-body reveal reveal-d2">
+      We accept a limited number of engagements each quarter. If your business is ready to stop buying time and start owning infrastructure, the conversation begins with a single call.
+    </p>
+    <a href="https://calendly.com/labington1022/30min" class="cta-btn reveal reveal-d3" target="_blank" rel="noopener">
+      <span>Book Strategy Call</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="f-brand">The Icarus Protocol</div>
+    <div class="f-copy">EST. 2026 &nbsp;&middot;&nbsp; SOVEREIGN BY DESIGN</div>
+    <div class="f-contact">
+      <a href="tel:540-257-2200">540.257.2200</a>
+      <a href="mailto:labington1022@gmail.com">labington1022@gmail.com</a>
+      <a href="https://calendly.com/labington1022/30min" target="_blank" rel="noopener">Book a Call</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* ================================================================
+   CONSTELLATION CANVAS
+================================================================ */
+(function() {
+  const canvas = document.getElementById('constellation');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [], mouse = { x: null, y: null };
+  const PARTICLE_COUNT = 100;
+  const CONNECTION_DIST = 120;
+  const MOUSE_DIST = 200;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = (Math.random() - 0.5) * 0.35;
+      this.size = Math.random() * 1.2 + 0.4;
+      this.opacity = Math.random() * 0.5 + 0.15;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > w) this.vx *= -1;
+      if (this.y < 0 || this.y > h) this.vy *= -1;
+      if (mouse.x !== null) {
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < MOUSE_DIST) {
+          const force = (MOUSE_DIST - dist) / MOUSE_DIST;
+          this.x -= dx * force * 0.015;
+          this.y -= dy * force * 0.015;
+        }
+      }
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,169,98,${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => { p.update(); p.draw(); });
+    for (let i = 0; i < particles.length; i++) {
+      let connections = 0;
+      for (let j = i + 1; j < particles.length; j++) {
+        if (connections >= 3) break;
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < CONNECTION_DIST) {
+          const alpha = (1 - dist / CONNECTION_DIST) * 0.12;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(201,169,98,${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+          connections++;
+        }
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+/* ================================================================
+   PRELOADER
+================================================================ */
+(function() {
+  const preloader = document.getElementById('preloader');
+  const fill = document.getElementById('pl-fill');
+  const pct = document.getElementById('pl-pct');
+  const status = document.getElementById('pl-status');
+  const main = document.getElementById('main');
+
+  const phrases = [
+    'SYSTEM INITIALIZATION',
+    'LOADING NEURAL WEIGHTS',
+    'ESTABLISHING UPLINK',
+    'CALIBRATING SENSORS',
+    'DEPLOYING INTERFACE',
+    'HANDOFF COMPLETE'
+  ];
+
+  let p = 0;
+  const startTime = performance.now();
+  const duration = 2600;
+
+  function tick() {
+    const elapsed = performance.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = Math.floor(eased * 100);
+
+    fill.style.width = val + '%';
+    pct.textContent = val.toString().padStart(2, '0') + '%';
+
+    const phraseIdx = Math.min(Math.floor(progress * phrases.length), phrases.length - 1);
+    status.textContent = phrases[phraseIdx];
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      setTimeout(() => {
+        preloader.classList.add('is-gone');
+        main.classList.add('is-visible');
+        initHeroReveal();
+      }, 300);
+    }
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* ================================================================
+   HERO TEXT SPLIT REVEAL
+================================================================ */
+function initHeroReveal() {
+  const heroTitle = document.getElementById('heroTitle');
+  // Split text into characters
+  const text = heroTitle.innerHTML;
+  const temp = document.createElement('div');
+  temp.innerHTML = text;
+  let chars = [];
+  function walk(node) {
+    if (node.nodeType === 3) {
+      const str = node.textContent;
+      for (let i = 0; i < str.length; i++) {
+        const span = document.createElement('span');
+        if (str[i] === ' ') {
+          span.className = 'char char-space';
+          span.innerHTML = '&nbsp;';
+        } else {
+          span.className = 'char';
+          span.textContent = str[i];
+          span.style.transitionDelay = (i * 0.025) + 's';
+        }
+        chars.push(span);
+        node.parentNode.insertBefore(span, node);
+      }
+      node.remove();
+    } else if (node.nodeType === 1) {
+      Array.from(node.childNodes).forEach(walk);
+    }
+  }
+  Array.from(temp.childNodes).forEach(walk);
+  // Rebuild with wrappers
+  heroTitle.innerHTML = temp.innerHTML;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      heroTitle.classList.add('is-visible');
+    });
+  });
+}
+
+/* ================================================================
+   CUSTOM CURSOR
+================================================================ */
+(function() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  const cursor = document.getElementById('cursor');
+  const aura = document.getElementById('cursor-aura');
+  let x = 0, y = 0, ax = 0, ay = 0;
+
+  document.addEventListener('mousemove', e => {
+    x = e.clientX; y = e.clientY;
+  });
+
+  function loop() {
+    ax += (x - ax) * 0.15;
+    ay += (y - ay) * 0.15;
+    cursor.style.transform = `translate(${x}px, ${y}px)`;
+    aura.style.transform = `translate(${ax}px, ${ay}px)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  const hoverTargets = document.querySelectorAll('a, button, .cap-cell');
+  hoverTargets.forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+  });
+})();
+
+/* ================================================================
+   SCROLL REVEAL (IntersectionObserver)
+================================================================ */
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+
+/* ================================================================
+   NAV SCROLL FADE + INTRO HIDE (single handler — no conflicts)
+================================================================ */
+(function() {
+  const nav = document.querySelector('.nav');
+  let last = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > 100) {
+      nav.style.opacity = y > last && y > 300 ? '0' : '1';
+      nav.style.pointerEvents = 'auto';
+      nav.style.transition = 'opacity 0.4s ease';
+    } else {
+      nav.style.opacity = '1';
+      nav.style.pointerEvents = 'auto';
+    }
+    last = y;
+  });
+})();
+
+</script>
+
+</body>
+</html>
