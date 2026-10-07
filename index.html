@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08080D">
-<meta name="description" content="The Icarus Protocol — Sovereign intelligence infrastructure for modern business. Meta advertising, creative generation, and autonomous lead systems.">
-<title>The Icarus Protocol — Sovereign Intelligence</title>
+<meta name="description" content="The Icarus Protocol runs Meta ads, creative, lead qualification, and appointment setting for contractors and local service businesses in Virginia. Booked estimates, not more reports.">
+<title>The Icarus Protocol — Meta Ads &amp; Appointment Setting for Contractors</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@200;300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -302,6 +302,16 @@
   }
   .cap-cell:hover::before { opacity: 1; }
   .cap-cell:hover { background: var(--void-raised); }
+  .cap-grid.grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1280px;
+  }
+  @media (max-width: 1100px) {
+    .cap-grid.grid-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .cap-grid.grid-4 { grid-template-columns: 1fr; }
+  }
   .cap-cell .num {
     font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; color: var(--gold-dim);
     margin-bottom: 1.2rem;
@@ -436,6 +446,16 @@
     object-fit: contain;
   }
 
+  /* Service-line strip under the hero */
+  .hero .hero-strip {
+    margin-top: 2.6rem;
+    display: flex; align-items: center; justify-content: center;
+    gap: clamp(1rem, 3vw, 2.4rem); flex-wrap: wrap;
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--ivory-muted);
+  }
+  .hero .hero-strip i { font-style: normal; color: var(--gold-dim); }
+
   /* Desktop — push hero content down so logo clears the nav border */
   @media (min-width: 769px) {
     .hero { padding-top: 120px; }
@@ -498,7 +518,7 @@
     <a href="#" class="brand">
       <img src="icarus-logo.png" class="logo-mark" alt="">
       ICARUS PROTOCOL
-      <small>Agency Systems Division</small>
+      <small>Contractor Growth Systems</small>
     </a>
     <a href="https://calendly.com/labington1022/30min" class="contact-btn" target="_blank" rel="noopener">Book a Call</a>
   </nav>
@@ -506,16 +526,24 @@
   <!-- HERO -->
   <section class="hero" id="hero">
     <div class="hero-logo reveal"><img src="icarus-logo.png" alt=""></div>
-    <div class="hero-meta reveal">SYSTEMS OPERATIONAL &nbsp;&middot;&nbsp; EST. 2026</div>
+    <div class="hero-meta reveal">CONTRACTORS &middot; EXTERIOR &amp; HOME SERVICES &middot; VIRGINIA</div>
     <h1 class="split-text" id="heroTitle">
       <span class="hero-line gold">THE ICARUS</span>
       <span class="hero-line protocol-line">PROTOCOL</span>
     </h1>
     <div class="hero-rule reveal reveal-d1"></div>
     <p class="hero-tagline reveal reveal-d2">
-      Sovereign intelligence infrastructure for the modern business.<br>
-      We do not sell hours. We <em>deploy systems</em> that acquire customers while you sleep.
+      We run the ads, the follow-up, and the appointment setting for contractors.<br>
+      You get booked estimates. <em>Not another report.</em>
     </p>
+    <div class="hero-strip reveal reveal-d3">
+      <span>Concrete</span><i>&middot;</i>
+      <span>Paving &amp; Asphalt</span><i>&middot;</i>
+      <span>Excavation</span><i>&middot;</i>
+      <span>Landscaping</span><i>&middot;</i>
+      <span>Tree Service</span><i>&middot;</i>
+      <span>Junk Removal</span>
+    </div>
     <div class="scroll-hint reveal reveal-d4">
       <span>Scroll</span>
       <div class="scroll-line"></div>
@@ -525,74 +553,75 @@
   <!-- STATEMENT -->
   <section class="statement" id="statement">
     <h2 class="reveal">
-      Every business that will <em>dominate</em> the next decade is currently building its machine.
+      Your next job is in somebody's feed right now. <em>We make sure it's yours.</em>
     </h2>
     <p class="stmt-body reveal reveal-d2">
-      The Icarus Protocol constructs Meta advertising funnels, autonomous creative generation pipelines, and lead-nurture systems engineered to operate without your daily intervention. This is not marketing. This is infrastructure.
+      The Icarus Protocol runs the whole front end of your growth: the Meta ads, the creative, the qualifying form and text conversation, the calls, and the appointment sitting on your calendar. One flat monthly rate. No long-term contract. You keep running the crew.
     </p>
   </section>
 
   <!-- CAPABILITIES -->
   <section class="capabilities" id="capabilities">
-    <div class="cap-label reveal">Intelligence Stack</div>
+    <div class="cap-label reveal">The System</div>
     <div class="cap-grid">
       <div class="cap-cell reveal reveal-d1">
         <div class="num">01</div>
-        <h3>Meta Ad Systems</h3>
-        <p>Campaign architecture, creative testing protocols, and budget allocation algorithms built for cost-per-acquisition at scale.</p>
+        <h3>Meta Ads</h3>
+        <p>We build and run the campaigns. Budget managed daily against one number: your cost per booked estimate.</p>
       </div>
       <div class="cap-cell reveal reveal-d2">
         <div class="num">02</div>
-        <h3>Creative Engine</h3>
-        <p>AI-generated video, image, and copy assets produced on spec and iterated against performance data in real time.</p>
+        <h3>Creative</h3>
+        <p>We produce the ads. Close enough to drive out, we send a videographer to your jobsite and shoot the real work. Farther out, we build from the photos and video you send.</p>
       </div>
       <div class="cap-cell reveal">
         <div class="num">03</div>
-        <h3>Lead Automation</h3>
-        <p>n8n-powered funnels that capture, score, qualify, and route prospects into your calendar while you run operations.</p>
+        <h3>Lead Qualification</h3>
+        <p>Every lead goes through a qualifying form and an automated text conversation before anyone picks up a phone. Tire-kickers get filtered out up front.</p>
       </div>
       <div class="cap-cell reveal reveal-d2">
         <div class="num">04</div>
-        <h3>AI Outreach</h3>
-        <p>Autonomous research, personalized messaging, and follow-up sequences deployed across email, SMS, and social channels.</p>
+        <h3>Appointment Setting</h3>
+        <p>We call the qualified leads and put the estimate on your calendar. Your job starts when the truck pulls up.</p>
       </div>
       <div class="cap-cell reveal">
         <div class="num">05</div>
-        <h3>Data Sovereignty</h3>
-        <p>Your data lives in systems you control. No platform lock-in. No black boxes. Infrastructure that compounds.</p>
+        <h3>Pricing</h3>
+        <p>Month to month, or per booked estimate if you would rather pay per result. Rates depend on your market and your offer, so we quote it on the call.</p>
       </div>
       <div class="cap-cell reveal reveal-d2">
         <div class="num">06</div>
-        <h3>Strategic Convergence</h3>
-        <p>Weekly intelligence briefings and system audits. We treat your growth like a product, not a campaign.</p>
+        <h3>Your Side</h3>
+        <p>Show up to the estimate and close the job. Everything before that is on us.</p>
       </div>
     </div>
   </section>
 
   <!-- PROOF -->
+  <!-- Real client results belong here. Do not publish numbers until they are verified. -->
   <section class="proof" id="proof">
-    <div class="proof-label reveal">System Performance</div>
+    <div class="proof-label reveal">How It Runs</div>
     <div class="proof-grid">
       <div class="proof-item reveal">
         <div class="val"><span>24</span>/7</div>
-        <div class="lab">Autonomous Operation</div>
+        <div class="lab">Lead Capture &amp; Auto-Reply</div>
       </div>
       <div class="proof-item reveal reveal-d1">
-        <div class="val">&lt;<span>48</span>h</div>
-        <div class="lab">Speed to Lead</div>
+        <div class="val"><span>1</span></div>
+        <div class="lab">Number That Matters: Cost Per Booked Estimate</div>
       </div>
       <div class="proof-item reveal reveal-d2">
         <div class="val"><span>0</span></div>
-        <div class="lab">Manual Touchpoints</div>
+        <div class="lab">Long-Term Contracts</div>
       </div>
     </div>
   </section>
 
   <!-- CTA -->
   <section class="cta" id="initiate">
-    <h2 class="reveal">The machine compounds.<br>Will you build it?</h2>
+    <h2 class="reveal">You have the trucks.<br>We bring the jobs.</h2>
     <p class="cta-body reveal reveal-d2">
-      We accept a limited number of engagements each quarter. If your business is ready to stop buying time and start owning infrastructure, the conversation begins with a single call.
+      We are a small team and we take on a handful of contractors at a time. If your calendar needs filling, start with one conversation.
     </p>
     <a href="https://calendly.com/labington1022/30min" class="cta-btn reveal reveal-d3" target="_blank" rel="noopener">
       <span>Book Strategy Call</span>
@@ -603,7 +632,7 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="f-brand">The Icarus Protocol</div>
-    <div class="f-copy">EST. 2026 &nbsp;&middot;&nbsp; SOVEREIGN BY DESIGN</div>
+    <div class="f-copy">EST. 2026 &nbsp;&middot;&nbsp; VIRGINIA &nbsp;&middot;&nbsp; MONTH TO MONTH</div>
     <div class="f-legal" style="margin-top:1.2rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;">
       <a href="privacy-policy.html" style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ivory-muted);text-decoration:none;transition:color 0.4s;">Privacy Policy</a>
       <a href="terms-of-service.html" style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ivory-muted);text-decoration:none;transition:color 0.4s;">Terms of Service</a>
