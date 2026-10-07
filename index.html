@@ -302,16 +302,6 @@
   }
   .cap-cell:hover::before { opacity: 1; }
   .cap-cell:hover { background: var(--void-raised); }
-  .cap-grid.grid-4 {
-    grid-template-columns: repeat(4, 1fr);
-    max-width: 1280px;
-  }
-  @media (max-width: 1100px) {
-    .cap-grid.grid-4 { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 560px) {
-    .cap-grid.grid-4 { grid-template-columns: 1fr; }
-  }
   .cap-cell .num {
     font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; color: var(--gold-dim);
     margin-bottom: 1.2rem;
@@ -608,7 +598,7 @@
       </div>
       <div class="proof-item reveal reveal-d1">
         <div class="val"><span>1</span></div>
-        <div class="lab">Number That Matters: Cost Per Booked Estimate</div>
+        <div class="lab">Flat Monthly Rate</div>
       </div>
       <div class="proof-item reveal reveal-d2">
         <div class="val"><span>0</span></div>
