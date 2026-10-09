@@ -315,6 +315,74 @@
     color: var(--ivory-dim); line-height: 1.7; max-width: 36ch;
   }
 
+  /* WORK / VIDEO EXAMPLES */
+  .work { flex-direction: column; align-items: center; text-align: center; padding: 12vh 6vw; }
+  .work .work-label {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 3rem;
+  }
+  .work h2 {
+    font-family: var(--serif); font-weight: 300; font-size: clamp(1.8rem, 4vw, 3.2rem);
+    color: var(--ivory); letter-spacing: -0.02em; line-height: 1.15; max-width: 24ch; margin: 0 auto;
+  }
+  .work h2 em { color: var(--gold); font-style: italic; font-weight: 400; }
+  .work .work-body {
+    font-family: var(--sans); font-weight: 300; font-size: clamp(0.85rem, 1.1vw, 1rem);
+    color: var(--ivory-dim); max-width: 52ch; margin: 2rem auto 0; line-height: 1.8;
+  }
+  .work-grid {
+    display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;
+    gap: clamp(2rem, 5vw, 4.5rem); margin-top: 4.5rem; width: 100%;
+  }
+  .work-card { width: min(320px, 78vw); margin: 0; text-align: left; }
+  .video-frame {
+    position: relative; border: 1px solid var(--border); background: #000; overflow: hidden;
+    transition: border-color 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out);
+  }
+  .video-frame:hover { border-color: var(--gold-dim); box-shadow: 0 0 40px rgba(201,169,98,0.08); }
+  .video-frame video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: #000; }
+  .play-btn {
+    position: absolute; inset: 0; width: 100%; height: 100%; border: 0; cursor: pointer;
+    background: radial-gradient(ellipse at center, rgba(8,8,13,0.10) 0%, rgba(8,8,13,0.55) 100%);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.5s var(--ease-out), visibility 0.5s;
+  }
+  .play-btn svg { width: 54px; height: 54px; color: var(--gold); filter: drop-shadow(0 0 14px rgba(201,169,98,0.35)); }
+  .video-frame.playing .play-btn { opacity: 0; visibility: hidden; }
+  .work-card .wc-cap { margin-top: 1.4rem; }
+  .work-card .wc-name { display: block; font-family: var(--serif); font-size: 1.15rem; color: var(--ivory); letter-spacing: -0.01em; }
+  .work-card .wc-meta { display: block; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ivory-muted); margin-top: 0.6rem; }
+  .work-card .wc-note { display: block; font-family: var(--sans); font-weight: 300; font-size: 0.78rem; color: var(--ivory-dim); line-height: 1.7; margin-top: 0.8rem; }
+
+  /* CLIENT WORDS */
+  .praise { flex-direction: column; align-items: center; padding: 12vh 6vw; }
+  .praise .praise-label {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 4rem; text-align: center;
+  }
+  .praise-grid {
+    display: flex; align-items: center; justify-content: center; gap: clamp(2rem, 5vw, 4.5rem);
+    flex-wrap: wrap; max-width: 1100px; width: 100%;
+  }
+  .praise-video { width: min(300px, 76vw); }
+  .praise-quote { flex: 1 1 34ch; max-width: 48ch; text-align: left; }
+  .praise-quote p {
+    font-family: var(--serif); font-weight: 300; font-size: clamp(1.25rem, 2.4vw, 2rem);
+    color: var(--ivory); line-height: 1.35; letter-spacing: -0.01em;
+  }
+  .praise-quote .praise-sub {
+    font-family: var(--sans); font-weight: 300; font-size: clamp(0.85rem, 1.1vw, 1rem);
+    color: var(--ivory-dim); line-height: 1.8; margin-top: 1.6rem;
+  }
+  .praise-quote cite {
+    display: block; font-family: var(--mono); font-style: normal; font-size: 0.6rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-dim); margin-top: 2rem;
+  }
+  @media (max-width: 768px) {
+    .praise-quote { text-align: center; }
+    .praise-quote cite { letter-spacing: 0.15em; }
+  }
+
   /* TRUST / PROOF */
   .proof { text-align: center; padding: 15vh 5vw; }
   .proof .proof-label {
@@ -588,6 +656,57 @@
         <h3>Your Side</h3>
         <p>Show up to the estimate and close the job. Everything before that is on us.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="work" id="work">
+    <div class="work-label reveal">Recent Work</div>
+    <h2 class="reveal">Ads built on <em>real jobsites.</em></h2>
+    <p class="work-body reveal reveal-d2">
+      Every ad we run is shot on your work: your crew, your trucks, your finished jobs. No stock footage, no studio set. Two we shipped recently.
+    </p>
+    <div class="work-grid">
+      <figure class="work-card reveal reveal-d3">
+        <div class="video-frame">
+          <video poster="media/allstate-estimates.jpg" preload="none" playsinline controls src="media/allstate-estimates.mp4"></video>
+          <button class="play-btn" type="button" aria-label="Play the Allstate Asphalt and Concrete ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m10 8.5 5.5 3.5-5.5 3.5z" fill="currentColor"/></svg></button>
+        </div>
+        <figcaption class="wc-cap">
+          <span class="wc-name">Allstate Asphalt &amp; Concrete</span>
+          <span class="wc-meta">Roanoke, VA &middot; Owner-led estimate ad</span>
+          <span class="wc-note">Charlie talks straight to camera about how he gives estimates. Shot on his own lot.</span>
+        </figcaption>
+      </figure>
+      <figure class="work-card reveal reveal-d3">
+        <div class="video-frame">
+          <video poster="media/concrete-revisions.jpg" preload="none" playsinline controls src="media/concrete-revisions.mp4"></video>
+          <button class="play-btn" type="button" aria-label="Play the concrete replacement ad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m10 8.5 5.5 3.5-5.5 3.5z" fill="currentColor"/></svg></button>
+        </div>
+        <figcaption class="wc-cap">
+          <span class="wc-name">Concrete Revisions</span>
+          <span class="wc-meta">Driveway replacement &middot; Job-site ad</span>
+          <span class="wc-note">No talking head. The pour does the selling, with the city call-out and offer on screen.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- CLIENT WORDS -->
+  <section class="praise" id="praise">
+    <div class="praise-label reveal">Client Words</div>
+    <div class="praise-grid">
+      <div class="praise-video reveal reveal-d1">
+        <div class="video-frame">
+          <video poster="media/jmg-testimonial.jpg" preload="none" playsinline controls src="media/jmg-testimonial.mp4"></video>
+          <button class="play-btn" type="button" aria-label="Play the JMG Exterior Services testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m10 8.5 5.5 3.5-5.5 3.5z" fill="currentColor"/></svg></button>
+        </div>
+      </div>
+      <blockquote class="praise-quote reveal reveal-d2">
+        <p>&ldquo;A little bit over eight, very high quality estimates &mdash; all over a thousand dollars.&rdquo;</p>
+        <p class="praise-sub">&ldquo;The other day we did an estimate for concrete, around $10,000. And a ditch and retaining wall &mdash; at least $8,000 in that estimate.&rdquo;</p>
+        <cite>Juan &mdash; JMG Exterior Services, Stafford, VA</cite>
+      </blockquote>
     </div>
   </section>
 
@@ -874,6 +993,30 @@ function initHeroReveal() {
       nav.style.pointerEvents = 'auto';
     }
     last = y;
+  });
+})();
+
+/* ================================================================
+   VIDEO FRAMES — click-to-play overlay, one at a time
+================================================================ */
+(function() {
+  var frames = document.querySelectorAll('.video-frame');
+  frames.forEach(function(frame) {
+    var v = frame.querySelector('video');
+    var btn = frame.querySelector('.play-btn');
+    if (!v || !btn) return;
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      v.play();
+    });
+    v.addEventListener('play', function() {
+      frame.classList.add('playing');
+      document.querySelectorAll('.video-frame video').forEach(function(other) {
+        if (other !== v) other.pause();
+      });
+    });
+    v.addEventListener('pause', function() { frame.classList.remove('playing'); });
+    v.addEventListener('ended', function() { frame.classList.remove('playing'); });
   });
 })();
 
